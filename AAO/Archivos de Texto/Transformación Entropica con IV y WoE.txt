@@ -1,0 +1,43 @@
+Transformación Entrópica con IV (Valor de Información) y WoE (Peso de la Evidencia)
+
+Este documento explica los conceptos de Peso de la Evidencia (WoE) y Valor de Información (IV), métricas comúnmente utilizadas en la modelización de riesgo de crédito y análisis de clasificación binaria para evaluar la importancia de las variables predictoras.
+
+1. Peso de la Evidencia (Weight of Evidence - WoE)
+---------------------------------------------------
+El WoE es una medida que indica qué tan bien una categoría específica de una variable independiente separa los eventos (ej. incumplimiento, fraude, "1") de los no eventos (ej. no incumplimiento, normal, "0").
+
+Fórmula:
+WoE = ln( (% de No Eventos) / (% de Eventos) )
+
+Donde:
+- % de No Eventos = (Número de No Eventos en el grupo) / (Total de No Eventos en la muestra)
+- % de Eventos = (Número de Eventos en el grupo) / (Total de Eventos en la muestra)
+- ln = Logaritmo natural
+
+Interpretación:
+- WoE = 0: La proporción de eventos y no eventos en el grupo es igual a la de la población general. El grupo no aporta información extra.
+- WoE > 0: El grupo tiene una mayor proporción de "Buenos" (No Eventos) que la población general.
+- WoE < 0: El grupo tiene una mayor proporción de "Malos" (Eventos) que la población general.
+
+El WoE permite transformar variables categóricas o continuas (agrupadas en rangos) en una escala numérica estandarizada que tiene una relación lineal con el logaritmo de las probabilidades (log-odds).
+
+2. Valor de Información (Information Value - IV)
+------------------------------------------------
+El IV es una métrica global que cuantifica el poder predictivo total de una variable característica. Se calcula sumando las contribuciones individuales de cada grupo o categoría.
+
+Fórmula:
+IV = Σ ( (% de No Eventos - % de Eventos) * WoE )
+
+Interpretación del IV (Regla general):
+- < 0.02: Impredecible / Inútil
+- 0.02 a 0.1: Predictor Débil
+- 0.1 a 0.3: Predictor Medio
+- 0.3 a 0.5: Predictor Fuerte
+- > 0.5: Sospechoso / Demasiado bueno (posible sobreajuste o fuga de información)
+
+Uso en Selección de Variables:
+El IV se utiliza para clasificar las variables según su importancia. Las variables con un IV alto se seleccionan para el modelo, mientras que las que tienen un IV muy bajo se descartan.
+
+Consideraciones:
+- Manejo de ceros: Si un grupo tiene 0 eventos o 0 no eventos, el WoE es indefinido. Se suele sumar un valor pequeño (suavizado) para evitar la división por cero.
+- Variables continuas: Deben ser discretizadas (binning) antes de calcular WoE e IV.

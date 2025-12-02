@@ -1,0 +1,40 @@
+# Método SelectKBest para Selección de Variables
+
+## Descripción General
+SelectKBest es un método de selección de características (feature selection) disponible en la biblioteca Scikit-Learn de Python. Su objetivo principal es reducir la dimensionalidad de un conjunto de datos seleccionando las 'k' características más importantes o relevantes en función de una métrica estadística específica.
+
+Este método pertenece a la categoría de métodos de filtrado (filter methods), lo que significa que evalúa la relevancia de las características de forma independiente al modelo de aprendizaje automático que se utilizará posteriormente.
+
+## Funcionamiento Detallado
+El proceso de selección de variables con SelectKBest se puede desglosar en los siguientes pasos:
+
+1.  **Evaluación Individual**: Se calcula una puntuación (score) estadística para cada variable independiente (feature) del conjunto de datos con respecto a la variable objetivo (target). Esta puntuación mide la dependencia o la fuerza de la relación entre la característica y la etiqueta.
+
+2.  **Ranking**: Las características se ordenan de mayor a menor según sus puntuaciones.
+
+3.  **Selección**: Se seleccionan las 'k' características con las puntuaciones más altas, donde 'k' es un parámetro definido por el usuario.
+
+## Criterio Estadístico: Chi-Cuadrado (Chi-Squared)
+En este contexto, utilizaremos la prueba de Chi-Cuadrado ($\chi^2$) como la función de puntuación.
+
+### ¿Qué es la prueba Chi-Cuadrado?
+La prueba de Chi-Cuadrado es una técnica estadística utilizada para determinar si existe una asociación significativa entre dos variables categóricas. En el contexto de selección de características para clasificación, mide la dependencia entre variables estocásticas, por lo que usar esta función "elimina" las características que tienen mayor probabilidad de ser independientes de la clase y, por lo tanto, irrelevantes para la clasificación.
+
+### Requisitos
+- **Valores No Negativos**: La prueba Chi-Cuadrado requiere que los valores de las características sean no negativos (e.g., frecuencias, conteos, o datos escalados con MinMaxScaler).
+- **Tipos de Datos**: Es ideal para características categóricas o booleanas, pero también se aplica comúnmente a datos numéricos discretos (como conteos de palabras en procesamiento de texto).
+
+### Interpretación del Poder Predictivo
+- Una puntuación Chi-Cuadrado **alta** indica que la hipótesis nula de independencia (que la característica no está relacionada con la clase) puede ser rechazada. Es decir, la característica tiene una fuerte asociación con la variable objetivo y, por lo tanto, un alto poder predictivo.
+- Una puntuación **baja** sugiere que la característica es independiente de la variable objetivo y no aporta información útil para predecir la clase.
+
+## Ventajas de Utilizar SelectKBest
+1.  **Reducción del Overfitting**: Al eliminar variables irrelevantes o ruidosas, se reduce la complejidad del modelo y el riesgo de sobreajuste.
+2.  **Mejora del Rendimiento**: Menos variables significan tiempos de entrenamiento más rápidos.
+3.  **Mejor Interpretabilidad**: Es más fácil entender y explicar un modelo que utiliza un subconjunto pequeño de variables significativas.
+
+## Implementación en Python
+La implementación típica en Python utilizando `sklearn.feature_selection` implica:
+1.  Importar `SelectKBest` y la función de puntuación `chi2`.
+2.  Instanciar el objeto `SelectKBest` especificando `score_func=chi2` y el número de características `k`.
+3.  Ajustar el selector a los datos (`fit` o `fit_transform`) para obtener las características seleccionadas.

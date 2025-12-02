@@ -1,0 +1,38 @@
+# Multicolinealidad y Reducción de Dimensiones
+
+## Multicolinealidad
+
+### ¿Qué es?
+La multicolinealidad ocurre cuando dos o más variables independientes en un modelo de regresión están altamente correlacionadas entre sí. 
+Esto significa que una variable puede ser predicha linealmente con un grado sustancial de precisión a partir de las otras.
+
+### ¿Por qué es importante detectarla?
+1. **Inestabilidad de los Coeficientes**: En modelos lineales (como regresión lineal o logística), la multicolinealidad hace que las estimaciones de los coeficientes 
+sean muy sensibles a pequeños cambios en el modelo o en los datos.
+2. **Interpretación Difícil**: Se vuelve difícil determinar el efecto individual de cada variable independiente sobre la variable dependiente, ya que sus efectos están "mezclados".
+3. **Sobreajuste (Overfitting)**: Aunque no necesariamente afecta el poder predictivo global, hace que el modelo sea innecesariamente complejo y menos generalizable.
+4. **Redundancia Computacional**: Procesar variables que aportan la misma información desperdicia recursos computacionales.
+
+### Solución: VarClusHi
+VarClusHi (Variable Clustering with Hierarchical clustering) es una técnica que agrupa variables correlacionadas en clústeres disjuntos. De cada clúster, se puede seleccionar una variable representativa
+(la que tenga mayor correlación con el componente principal del clúster o el ratio 1-R2 más bajo). 
+Esto reduce la dimensionalidad eliminando la redundancia mientras se conserva la interpretabilidad de las variables originales.
+
+---
+
+## Reducción de Dimensiones con PCA
+
+### Funcionamiento
+El Análisis de Componentes Principales (PCA) es una técnica de transformación lineal que convierte un conjunto de observaciones de variables 
+posiblemente correlacionadas en un conjunto de valores de variables linealmente no correlacionadas llamadas componentes principales.
+
+1. **Estandarización**: Se escalan los datos para que tengan media 0 y varianza 1.
+2. **Matriz de Covarianza**: Se calcula para entender cómo varían las variables respecto a las otras.
+3. **Autovectores y Autovalores**: Se calculan los autovectores (direcciones de máxima varianza) y autovalores (magnitud de la varianza en esas direcciones).
+4. **Proyección**: Se proyectan los datos originales sobre los autovectores seleccionados (los que tienen mayores autovalores).
+
+### Importancia
+1. **Compresión de Información**: Permite representar la mayor parte de la variabilidad de los datos utilizando muchas menos dimensiones que el conjunto original.
+2. **Visualización**: Facilita la visualización de datos complejos en 2D o 3D, permitiendo identificar patrones, clústeres o outliers que no serían visibles en espacios de alta dimensión.
+3. **Eliminación de Ruido**: Al descartar los componentes con menor varianza, a menudo se elimina el "ruido" aleatorio de los datos.
+4. **Descorrelación**: Los componentes resultantes son ortogonales (no correlacionados), lo cual es beneficioso para muchos algoritmos de aprendizaje automático.

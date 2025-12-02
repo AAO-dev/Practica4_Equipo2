@@ -1,0 +1,52 @@
+# Candidatos para Reducción de Dimensiones y Selección de Variables
+
+Este documento detalla el análisis realizado para identificar variables candidatas 
+a ser eliminadas o reducidas debido a baja varianza o alta multicolinealidad.
+
+## 1. Baja Varianza
+Las variables con varianza muy cercana a cero aportan poca información al modelo, 
+ya que sus valores son casi constantes para todas las observaciones.
+
+**Candidatos por Baja Varianza (< 0.01):**
+- **A23**: Varianza 0.0056. (Net profit / sales)
+- **A42**: Varianza 0.0068. (Profit on operating activities / sales)
+- **A39**: Varianza 0.0069. (Profit on sales / sales)
+- **A19**: Varianza 0.0072. (Gross profit / sales)
+- **A49**: Varianza 0.0077. (Profit on sales / total assets)
+
+**Justificación:** Estas variables tienen una dispersión de datos muy baja, lo que sugiere que 
+no discriminan bien entre las diferentes compañías. Son fuertes candidatas a eliminación directa.
+
+## 2. Alta Multicolinealidad (Correlación de Pearson)
+Se identificaron pares de variables con una correlación extremadamente alta (> 0.99), lo que indica redundancia. 
+Mantener ambas variables introduce ruido y problemas de estabilidad en modelos lineales.
+
+**Pares Altamente Correlacionados:**
+1. **A7 vs A14 (0.9999)**:
+   - A7: EBIT / total assets
+   - A14: (Gross profit + interest) / total assets
+   - **Justificación**: Son prácticamente la misma métrica financiera. 
+   Se debe conservar solo una (generalmente A7 por ser más estándar).
+
+2. **A14 vs A18 (0.9998)**:
+   - A18: Gross profit / total assets
+   - **Justificación**: Redundante con A14 y A7.
+
+3. **A8 vs A17 (0.9959)**:
+   - A8: Book value of equity / total liabilities
+   - A17: Total assets / total liabilities
+   - **Justificación**: Ambas miden apalancamiento/solvencia de forma muy similar.
+
+4. **A16 vs A26 (0.9933)**:
+   - A16: (Gross profit + depreciation) / total liabilities
+   - A26: (Net profit + depreciation) / total liabilities
+   - **Justificación**: Miden flujo de caja operativo relativo a pasivos. Muy redundantes.
+
+5. **A32 vs A52 (0.9928)**:
+   - A32: (Current liabilities * 365) / cost of products sold
+   - A52: (Short-term liabilities * 365) / cost of products sold
+   - **Justificación**: Current liabilities y Short-term liabilities suelen ser lo mismo en muchos contextos contables.
+
+**Conclusión:**
+Existe una fuerte multicolinealidad en el dataset. Métodos como **VarClusHi** son ideales aquí para agrupar 
+estas variables redundantes y seleccionar automáticamente la mejor representante de cada grupo, en lugar de eliminar manualmente pares uno por uno.

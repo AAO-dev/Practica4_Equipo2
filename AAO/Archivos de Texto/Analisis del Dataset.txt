@@ -1,0 +1,244 @@
+================================================================================
+ANÁLISIS DEL DATASET: BANKRUPTCY POLISH COMPANIES
+================================================================================
+
+1. INFORMACIÓN GENERAL
+--------------------------------------------------------------------------------
+Número total de registros: 43,405
+Número total de variables: 66
+Tamaño en memoria: 21.86 MB
+
+2. VARIABLES DEL DATASET
+--------------------------------------------------------------------------------
+Variables numéricas: 66
+Variables categóricas/objetivo: 0
+
+Lista de variables:
+   1. year            - Tipo: int64
+   2. A1              - Tipo: float64
+   3. A2              - Tipo: float64
+   4. A3              - Tipo: float64
+   5. A4              - Tipo: float64
+   6. A5              - Tipo: float64
+   7. A6              - Tipo: float64
+   8. A7              - Tipo: float64
+   9. A8              - Tipo: float64
+  10. A9              - Tipo: float64
+  11. A10             - Tipo: float64
+  12. A11             - Tipo: float64
+  13. A12             - Tipo: float64
+  14. A13             - Tipo: float64
+  15. A14             - Tipo: float64
+  16. A15             - Tipo: float64
+  17. A16             - Tipo: float64
+  18. A17             - Tipo: float64
+  19. A18             - Tipo: float64
+  20. A19             - Tipo: float64
+  21. A20             - Tipo: float64
+  22. A21             - Tipo: float64
+  23. A22             - Tipo: float64
+  24. A23             - Tipo: float64
+  25. A24             - Tipo: float64
+  26. A25             - Tipo: float64
+  27. A26             - Tipo: float64
+  28. A27             - Tipo: float64
+  29. A28             - Tipo: float64
+  30. A29             - Tipo: float64
+  31. A30             - Tipo: float64
+  32. A31             - Tipo: float64
+  33. A32             - Tipo: float64
+  34. A33             - Tipo: float64
+  35. A34             - Tipo: float64
+  36. A35             - Tipo: float64
+  37. A36             - Tipo: float64
+  38. A37             - Tipo: float64
+  39. A38             - Tipo: float64
+  40. A39             - Tipo: float64
+  41. A40             - Tipo: float64
+  42. A41             - Tipo: float64
+  43. A42             - Tipo: float64
+  44. A43             - Tipo: float64
+  45. A44             - Tipo: float64
+  46. A45             - Tipo: float64
+  47. A46             - Tipo: float64
+  48. A47             - Tipo: float64
+  49. A48             - Tipo: float64
+  50. A49             - Tipo: float64
+  51. A50             - Tipo: float64
+  52. A51             - Tipo: float64
+  53. A52             - Tipo: float64
+  54. A53             - Tipo: float64
+  55. A54             - Tipo: float64
+  56. A55             - Tipo: float64
+  57. A56             - Tipo: float64
+  58. A57             - Tipo: float64
+  59. A58             - Tipo: float64
+  60. A59             - Tipo: float64
+  61. A60             - Tipo: float64
+  62. A61             - Tipo: float64
+  63. A62             - Tipo: float64
+  64. A63             - Tipo: float64
+  65. A64             - Tipo: float64
+  66. class           - Tipo: int64
+
+3. VARIABLE OBJETIVO (class)
+--------------------------------------------------------------------------------
+Total de registros: 43,405
+  Clase 0: 41,314 (95.18%)
+  Clase 1: 2,091 (4.82%)
+
+Proporción desbalanceo: 19.76:1
+
+4. VALORES FALTANTES
+--------------------------------------------------------------------------------
+Variables con valores faltantes: 64
+
+  A37            : 18,984 ( 43.74%)
+  A21            :  5,854 ( 13.49%)
+  A27            :  2,764 (  6.37%)
+  A60            :  2,152 (  4.96%)
+  A45            :  2,147 (  4.95%)
+  A24            :    922 (  2.12%)
+  A54            :    812 (  1.87%)
+  A28            :    812 (  1.87%)
+  A64            :    812 (  1.87%)
+  A53            :    812 (  1.87%)
+  A41            :    754 (  1.74%)
+  A32            :    368 (  0.85%)
+  A52            :    301 (  0.69%)
+  A47            :    297 (  0.68%)
+  A46            :    135 (  0.31%)
+  A4             :    134 (  0.31%)
+  A33            :    134 (  0.31%)
+  A63            :    134 (  0.31%)
+  A12            :    134 (  0.31%)
+  A40            :    134 (  0.31%)
+
+5. ESTADÍSTICAS DESCRIPTIVAS (Top 10 variables numéricas)
+--------------------------------------------------------------------------------
+
+year:
+  Media:                2.9398
+  Mediana:              3.0000
+  Std Dev:              1.2840
+  Mínimo:               1.0000
+  Máximo:               5.0000
+  Q1 (25%):             2.0000
+  Q3 (75%):             4.0000
+
+A1:
+  Media:                0.0352
+  Mediana:              0.0497
+  Std Dev:              2.9941
+  Mínimo:            -463.8900
+  Máximo:              94.2800
+  Q1 (25%):             0.0034
+  Q3 (75%):             0.1296
+
+A2:
+  Media:                0.5902
+  Mediana:              0.4719
+  Std Dev:              5.8427
+  Mínimo:            -430.8700
+  Máximo:             480.9600
+  Q1 (25%):             0.2690
+  Q3 (75%):             0.6883
+
+A3:
+  Media:                0.1144
+  Mediana:              0.1966
+  Std Dev:              5.4394
+  Mínimo:            -479.9600
+  Máximo:              28.3360
+  Q1 (25%):             0.0215
+  Q3 (75%):             0.4034
+
+A4:
+  Media:                6.3147
+  Mediana:              1.5698
+  Std Dev:            295.4344
+  Mínimo:              -0.4031
+  Máximo:           53433.0000
+  Q1 (25%):             1.0495
+  Q3 (75%):             2.7874
+
+A5:
+  Media:             -385.3480
+  Mediana:             -1.0345
+  Std Dev:          61227.9683
+  Mínimo:       -11900000.0000
+  Máximo:         1250100.0000
+  Q1 (25%):           -49.0800
+  Q3 (75%):            50.6343
+
+A6:
+  Media:               -0.0561
+  Mediana:              0.0000
+  Std Dev:              7.2013
+  Mínimo:            -508.4100
+  Máximo:             543.2500
+  Q1 (25%):             0.0000
+  Q3 (75%):             0.0894
+
+A7:
+  Media:                0.0935
+  Mediana:              0.0596
+  Std Dev:              5.7131
+  Mínimo:            -517.4800
+  Máximo:             649.2300
+  Q1 (25%):             0.0058
+  Q3 (75%):             0.1509
+
+A8:
+  Media:               12.6408
+  Mediana:              1.0704
+  Std Dev:            505.8943
+  Mínimo:            -141.4100
+  Máximo:           53432.0000
+  Q1 (25%):             0.4303
+  Q3 (75%):             2.6157
+
+A9:
+  Media:                2.6522
+  Mediana:              1.1953
+  Std Dev:             62.9327
+  Mínimo:              -3.4960
+  Máximo:            9742.3000
+  Q1 (25%):             1.0185
+  Q3 (75%):             2.0625
+
+
+6. CORRELACIONES MÁS FUERTES (Top 15)
+--------------------------------------------------------------------------------
+Par de Variables                                    Correlación
+--------------------------------------------------------------------------------
+A7                   - A14                     1.0000
+A56                  - A58                     1.0000
+A4                   - A46                     0.9999
+A20                  - A58                     0.9999
+A20                  - A56                     0.9999
+A8                   - A17                     0.9996
+A19                  - A23                     0.9993
+A19                  - A31                     0.9992
+A43                  - A44                     0.9991
+A10                  - A38                     0.9990
+A53                  - A54                     0.9987
+A23                  - A31                     0.9985
+A3                   - A51                     0.9982
+A46                  - A50                     0.9976
+A4                   - A50                     0.9976
+
+
+7. CARACTERÍSTICAS CLAVE DEL DATASET
+--------------------------------------------------------------------------------
+• Dataset de empresas polacas con información financiera
+• 43,405 registros de empresas
+• 65 variables financieras/atributos
+• Variable objetivo binaria: bancarrota (0/1)
+• Dataset desbalanceado: ratio 19.8:1
+• 64 variables con valores faltantes
+• Máximo de faltantes: A37 (43.7%)
+
+================================================================================
+FIN DEL ANÁLISIS
+================================================================================
