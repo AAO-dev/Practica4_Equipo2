@@ -18,7 +18,8 @@ def completitud_datos(df: pd.DataFrame) -> pd.Series:
         Serie con el porcentaje de nulos por columna, ordenado descendentemente.
     """
     # Basado en la lógica de cálculo de completitud [5]
-    return round(df.isnull().sum().sort_values(ascending=False) / df.shape, 4)
+    n_filas = df.shape[0]
+    return round(df.isnull().sum().sort_values(ascending=False) / n_filas, 4) * 100
 
 def limpiar_nulos_imputer(df: pd.DataFrame, continuous_cols: List[str], discrete_cols: List[str]) -> pd.DataFrame:
     """
@@ -41,13 +42,13 @@ def limpiar_nulos_imputer(df: pd.DataFrame, continuous_cols: List[str], discrete
     """
     df_temp = df.copy()
 
-    # Imputación para variables continuas (media o mediana) [6, 7]
-    if continuous_cols:
+    # Imputación para variables continuas (media o mediana) 
+    if continuous_cols is not None and len(continuous_cols) > 0:
         imputer_media = SimpleImputer(strategy='mean')
         df_temp[continuous_cols] = imputer_media.fit_transform(df_temp[continuous_cols])
 
-    # Imputación para variables discretas (moda/most_frequent) [6-8]
-    if discrete_cols:
+    # Imputación para variables discretas (moda/most_frequent) 
+    if discrete_cols is not None and len(discrete_cols) > 0:
         imputer_moda = SimpleImputer(strategy='most_frequent')
         # Utilizamos .ravel() para asegurar que el output se ajuste a una Serie de Pandas
         df_temp[discrete_cols] = imputer_moda.fit_transform(df_temp[discrete_cols]).astype(df[discrete_cols].dtypes)

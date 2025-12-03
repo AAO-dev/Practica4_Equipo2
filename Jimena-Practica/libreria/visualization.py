@@ -4,38 +4,51 @@ import plotly.express as px
 from plotly.offline import iplot
 from plotly.graph_objects import Figure
 from typing import List, Union
+import plotly.offline as pyo
+import plotly.graph_objects as go
 
-cf.go_offline()
 
 def generar_histograma_cf(df: pd.DataFrame, columns: List[str]) -> None:
     """
-    Genera histogramas interactivos para las columnas continuas usando Cufflinks.
-
-    Ayuda a identificar la distribución y el comportamiento de los datos [28].
-
-    Parameters
-    ----------
-    df : pd.DataFrame
-        DataFrame de entrada.
-    columns : list of str
-        Lista de columnas numéricas para graficar.
+    Genera histogramas interactivos usando Plotly.
     """
+
     for col in columns:
+
+        if col not in df.columns:
+            print(f"⚠ La columna '{col}' no existe en el DataFrame.")
+            continue
+
+        if not pd.api.types.is_numeric_dtype(df[col]):
+            print(f"⚠ La columna '{col}' no es numérica.")
+            continue
+
         print(f"Generando histograma para: {col}")
-        # Uso de iplot con 'hist' como tipo de gráfico (kind)
-        df[col].iplot(
-            kind='hist', 
-            title=f'Distribución de {col}', 
-            xTitle=col, 
-            yTitle='Frecuencia', 
-            bins=50
+
+        fig = go.Figure(
+            data=[
+                go.Histogram(
+                    x=df[col],
+                    nbinsx=50,
+                    marker=dict(color="rgba(31,119,180,1)")
+                )
+            ]
         )
+
+        fig.update_layout(
+            title=f"Distribución de {col}",
+            xaxis_title=col,
+            yaxis_title="Frecuencia"
+        )
+
+        fig.show()
+
+
         
 def generar_boxplot_cf(df: pd.DataFrame, columns: List[str]) -> None:
     """
-    Genera boxplots interactivos para las columnas continuas usando Cufflinks.
-
-    Útil para visualizar la dispersión y la detección de outliers (método IQR) [9, 29].
+    Genera boxplots interactivos sin usar Cufflinks, evitando errores
+    derivados de colores inválidos en Plotly.
 
     Parameters
     ----------
@@ -44,14 +57,35 @@ def generar_boxplot_cf(df: pd.DataFrame, columns: List[str]) -> None:
     columns : list of str
         Lista de columnas numéricas para graficar.
     """
+
     for col in columns:
+
+        # Validar columna existente y numérica
+        if col not in df.columns:
+            print(f"⚠ La columna '{col}' no existe en el DataFrame.")
+            continue
+        if not pd.api.types.is_numeric_dtype(df[col]):
+            print(f"⚠ La columna '{col}' no es numérica.")
+            continue
+
         print(f"Generando Boxplot para: {col}")
-        # Uso de iplot con 'box' como tipo de gráfico (kind)
-        df[col].iplot(
-            kind='box', 
-            title=f'Boxplot de {col}'
+
+        fig = go.Figure(
+            data=[
+                go.Box(
+                    y=df[col],
+                    name=col,
+                    marker=dict(color="rgba(255,153,51,1)")  # color válido
+                )
+            ]
         )
 
+        fig.update_layout(
+            title=f"Boxplot de {col}",
+            yaxis_title=col
+        )
+
+        fig.show()
 def visualizar_pca_componentes(df_pca: pd.DataFrame, dim: int = 2) -> Figure:
     """
     Genera un scatter plot interactivo (2D o 3D) de los componentes principales.

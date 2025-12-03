@@ -75,37 +75,46 @@ def analisis_pca(df_scaled: pd.DataFrame, n_components: Union[int, float]) -> pd
 
 def analisis_varclushi(df_numeric: pd.DataFrame, sample_frac: float = 0.1) -> pd.DataFrame:
     """
-    Implementa VarClusHi (Variable Clustering) para identificar grupos de variables 
-    altamente multicolineales [20, 21].
-
-    Se recomienda usar una muestra si el dataset es muy grande [22].
+    Ejecuta VarClusHi para agrupar variables altamente correlacionadas.
 
     Parameters
     ----------
     df_numeric : pd.DataFrame
-        DataFrame de entrada con solo variables numéricas (preferiblemente escaladas).
-    sample_frac : float, optional
-        Fracción del DataFrame a muestrear para el cálculo, por defecto es 0.1.
+        Solo columnas numéricas (idealmente escaladas).
+    sample_frac : float
+        Fracción a usar como muestra si el dataset es muy grande.
 
     Returns
     -------
     pd.DataFrame
-        Tabla de resultados del clustering de variables (vc.vs), ordenada por clúster 
-        y con el ratio 1-R^2 para la selección de representantes.
+        Cluster asignado a cada variable con métricas RSquared y RS_Ratio.
     """
     print("Iniciando VarClusHi...")
-    
-    # Muestreo para datasets grandes (para eficiencia) [22]
+
+    # Selección de muestra para eficiencia
     if len(df_numeric) * sample_frac < 1000:
         numeric_sample = df_numeric
-        print("Usando el dataset completo para VarClusHi.")
+        print("Usando dataset completo.")
     else:
         numeric_sample = df_numeric.sample(frac=sample_frac, random_state=42)
-        print(f"Usando muestra del {sample_frac*100}% para VarClusHi.")
-        
+        print(f"Usando muestra del {sample_frac * 100}%.")
+
+    # Ejecutar VarClusHi
     vc = VarClusHi(numeric_sample)
     vc.varclus()
-    
-    # El ratio 1-R^2 es clave: buscamos un valor pequeño para la variable 
-    # que represente mejor al clúster (alta correlación intra-cluster) [23]
-    return vc.vs.sort_values(by=['Cluster', 'RS_Ratio'], ascending=[True, True])
+
+    # La API actual retorna resultados con get_clusters()
+    try:
+        clusters = vc.get_clusters()
+    except AttributeError:
+        raise RuntimeError(
+            "La instalación de VarClusHi no contiene get_clusters(). "
+            "Revisa la versión instalada con: pip show varclushi"
+        )
+
+    # Ordenado por clúster y ratio
+    if {'Cluster', 'RS_Ratio'}.issubset(clusters.columns):
+        return clusters.sort_values(by=['Cluster', 'RS_Ratio'], ascending=[True, True])
+    else:
+        return clusters.sort_values(by=['Cluster'])
+
