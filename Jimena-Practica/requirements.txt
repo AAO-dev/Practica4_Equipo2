@@ -1,0 +1,10 @@
+pandas
+numpy
+scikit-learn
+varclushi
+cufflinks
+plotly
+matplotlib
+seaborn
+scipy
+ucimlrepo
