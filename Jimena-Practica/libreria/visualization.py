@@ -4,8 +4,8 @@ import plotly.express as px
 from plotly.offline import iplot
 from plotly.graph_objects import Figure
 from typing import List, Union
-import plotly.offline as pyo
 import plotly.graph_objects as go
+
 
 
 def generar_histograma_cf(df: pd.DataFrame, columns: List[str]) -> None:
@@ -86,11 +86,13 @@ def generar_boxplot_cf(df: pd.DataFrame, columns: List[str]) -> None:
         )
 
         fig.show()
+
 def visualizar_pca_componentes(df_pca: pd.DataFrame, dim: int = 2) -> Figure:
     """
-    Genera un scatter plot interactivo (2D o 3D) de los componentes principales.
+    Genera un scatter plot interactivo (2D o 3D) de los componentes principales 
+    utilizando plotly.express.
 
-    La reducción a 2D/3D facilita la visualización de patrones de datos complejos [30, 31].
+    La reducción a 2D/3D facilita la visualización de patrones de datos complejos.
 
     Parameters
     ----------
@@ -104,30 +106,54 @@ def visualizar_pca_componentes(df_pca: pd.DataFrame, dim: int = 2) -> Figure:
     plotly.graph_objects.Figure
         Objeto Figure de Plotly.
     """
+    # Usamos plotly.express que es más estable y evita el error de formato de color
+    
     if dim == 3:
-        if df_pca.shape[19] < 3:
-            raise ValueError("Se requieren al menos 3 componentes (PC1, PC2, PC3) para la visualización 3D.")
-        fig = df_pca.iplot(
-            kind='scatter3d', 
-            mode='markers', 
+        # Aseguramos que existan las 3 columnas
+        required_cols = ['PC1', 'PC2', 'PC3']
+        if not all(col in df_pca.columns for col in required_cols):
+             raise ValueError("Se requieren las columnas 'PC1', 'PC2' y 'PC3' para la visualización 3D.")
+        
+        # Para PCA, a menudo se desea colorear por el índice o un grupo
+        # Usamos el índice como un identificador único si no hay otra columna de color
+        df_pca['ID_Unico'] = df_pca.index.astype(str)
+
+        fig = px.scatter_3d(
+            df_pca,
             x='PC1', 
             y='PC2', 
             z='PC3',
+            color='ID_Unico',  # Colorea por el ID único (índice)
+            opacity=0.7,
             title='Visualización PCA 3D', 
-            opacity=0.8, 
-            asFigure=True
+            template='plotly_white'
         )
+        
     elif dim == 2:
-        fig = df_pca.iplot(
-            kind='scatter', 
-            mode='markers', 
+        # Aseguramos que existan las 2 columnas
+        required_cols = ['PC1', 'PC2']
+        if not all(col in df_pca.columns for col in required_cols):
+             raise ValueError("Se requieren las columnas 'PC1' y 'PC2' para la visualización 2D.")
+        
+        # Usamos el índice como un identificador único si no hay otra columna de color
+        df_pca['ID_Unico'] = df_pca.index.astype(str)
+
+        fig = px.scatter(
+            df_pca,
             x='PC1', 
             y='PC2', 
+            color='ID_Unico', # Colorea por el ID único (índice)
+            opacity=0.8,
             title='Visualización PCA 2D', 
-            asFigure=True
+            template='plotly_white'
         )
+        
     else:
         raise ValueError("La dimensión debe ser 2 o 3.")
+        
+    # Eliminamos la columna temporal que creamos
+    if 'ID_Unico' in df_pca.columns:
+        df_pca.drop(columns=['ID_Unico'], inplace=True)
         
     fig.show()
     return fig

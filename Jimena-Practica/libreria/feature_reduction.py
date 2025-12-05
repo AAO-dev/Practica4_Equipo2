@@ -59,7 +59,7 @@ def analisis_pca(df_scaled: pd.DataFrame, n_components: Union[int, float]) -> pd
     pca.fit(df_scaled)
     
     # Imprimir la varianza explicada acumulada
-    print(f"Varianza explicada acumulada: {pca.explained_variance_ratio_.cumsum()}") [18]
+    print(f"Varianza explicada acumulada: {pca.explained_variance_ratio_.cumsum()}")
 
     # Transformar los datos
     Xp = pd.DataFrame(
@@ -68,7 +68,7 @@ def analisis_pca(df_scaled: pd.DataFrame, n_components: Union[int, float]) -> pd
     )
     
     # Nombrar las columnas (PC1, PC2, ...)
-    n_final_components = Xp.shape[19]
+    n_final_components = Xp.shape[1]
     Xp.columns = [f'PC{i+1}' for i in range(n_final_components)]
     
     return Xp
@@ -103,18 +103,12 @@ def analisis_varclushi(df_numeric: pd.DataFrame, sample_frac: float = 0.1) -> pd
     vc = VarClusHi(numeric_sample)
     vc.varclus()
 
-    # La API actual retorna resultados con get_clusters()
-    try:
-        clusters = vc.get_clusters()
-    except AttributeError:
-        raise RuntimeError(
-            "La instalación de VarClusHi no contiene get_clusters(). "
-            "Revisa la versión instalada con: pip show varclushi"
-        )
+    clusters = vc.info
 
     # Ordenado por clúster y ratio
     if {'Cluster', 'RS_Ratio'}.issubset(clusters.columns):
         return clusters.sort_values(by=['Cluster', 'RS_Ratio'], ascending=[True, True])
     else:
+        # Esto manejará el caso si solo retorna la columna 'Cluster'
         return clusters.sort_values(by=['Cluster'])
 
